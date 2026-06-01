@@ -3,7 +3,7 @@ export type GoalStatus = 'active' | 'paused' | 'completed' | 'archived';
 export type RecurrenceType = 'daily' | 'weekly_days' | 'weekly_count';
 export type LogStatus = 'done' | 'skipped' | 'partial';
 
-export interface Goal {
+export type Goal = {
   id: string;
   user_id: string;
   title: string;
@@ -24,7 +24,7 @@ export interface Goal {
   updated_at: string;
 }
 
-export interface Task {
+export type Task = {
   id: string;
   user_id: string;
   goal_id: string;
@@ -40,7 +40,7 @@ export interface Task {
   updated_at: string;
 }
 
-export interface TaskLog {
+export type TaskLog = {
   id: string;
   user_id: string;
   task_id: string;
@@ -51,7 +51,7 @@ export interface TaskLog {
   created_at: string;
 }
 
-export interface ProgressLog {
+export type ProgressLog = {
   id: string;
   user_id: string;
   goal_id: string;
@@ -61,7 +61,7 @@ export interface ProgressLog {
   created_at: string;
 }
 
-export interface MoodLog {
+export type MoodLog = {
   id: string;
   user_id: string;
   log_date: string;
@@ -72,7 +72,7 @@ export interface MoodLog {
   created_at: string;
 }
 
-export interface StoicQuote {
+export type StoicQuote = {
   id: number;
   body: string;
   author: string;
@@ -80,7 +80,7 @@ export interface StoicQuote {
   tags: string[] | null;
 }
 
-export interface DailyBrief {
+export type DailyBrief = {
   id: string;
   user_id: string;
   brief_date: string;
@@ -90,7 +90,7 @@ export interface DailyBrief {
   generated_at: string;
 }
 
-export interface Profile {
+export type Profile = {
   id: string;
   display_name: string | null;
   timezone: string;
@@ -102,13 +102,17 @@ export interface Profile {
 }
 
 // Minimal Database shape consumed by the typed Supabase client.
-export interface Database {
+// Each table carries an empty `Relationships` and the schema carries empty
+// `Views`/`Functions`/`Enums`/`CompositeTypes` so supabase-js's generics
+// resolve query results correctly (otherwise projections degrade to `never`).
+export type Database = {
   public: {
     Tables: {
       profiles: {
         Row: Profile;
         Insert: Partial<Profile> & { id: string };
         Update: Partial<Profile>;
+        Relationships: [];
       };
       goals: {
         Row: Goal;
@@ -116,37 +120,53 @@ export interface Database {
           current_value?: number;
         };
         Update: Partial<Goal>;
+        Relationships: [];
       };
       tasks: {
         Row: Task;
         Insert: Partial<Task>;
         Update: Partial<Task>;
+        Relationships: [];
       };
       task_logs: {
         Row: TaskLog;
         Insert: Omit<TaskLog, 'id' | 'created_at'>;
         Update: Partial<TaskLog>;
+        Relationships: [];
       };
       progress_logs: {
         Row: ProgressLog;
         Insert: Omit<ProgressLog, 'id' | 'created_at'>;
         Update: Partial<Pick<ProgressLog, 'note'>>;
+        Relationships: [];
       };
       mood_logs: {
         Row: MoodLog;
         Insert: Omit<MoodLog, 'id' | 'created_at'>;
         Update: Partial<MoodLog>;
+        Relationships: [];
       };
       stoic_quotes: {
         Row: StoicQuote;
         Insert: Omit<StoicQuote, 'id'>;
         Update: Partial<StoicQuote>;
+        Relationships: [];
       };
       daily_briefs: {
         Row: DailyBrief;
         Insert: Omit<DailyBrief, 'id' | 'generated_at'>;
         Update: Partial<DailyBrief>;
+        Relationships: [];
       };
     };
+    Views: Record<string, never>;
+    Functions: Record<string, never>;
+    Enums: {
+      goal_type: GoalType;
+      goal_status: GoalStatus;
+      recurrence_type: RecurrenceType;
+      log_status: LogStatus;
+    };
+    CompositeTypes: Record<string, never>;
   };
 }
