@@ -62,6 +62,7 @@ gcloud run deploy daily-tracker \
   --source . \
   --region "$REGION" \
   --allow-unauthenticated \
+  --clear-base-image \
   --set-env-vars THERAPIST_PROVIDER=groq,STT_PROVIDER=groq,GROQ_MODEL=llama-3.3-70b-versatile,GROQ_STT_MODEL=whisper-large-v3,GEMINI_MODEL=gemini-2.5-flash,VAPID_SUBJECT=mailto:mail@gmail.com \
   --set-secrets SUPABASE_SERVICE_ROLE_KEY=SUPABASE_SERVICE_ROLE_KEY:latest,GROQ_API_KEY=GROQ_API_KEY:latest,GEMINI_API_KEY=GEMINI_API_KEY:latest,VAPID_PRIVATE_KEY=VAPID_PRIVATE_KEY:latest,CRON_INVOKE_TOKEN=CRON_INVOKE_TOKEN:latest
 
