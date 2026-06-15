@@ -150,7 +150,9 @@ export async function sendMessage(
           userId,
           sessionId,
           'assistant',
-          "I can't reach the local therapist model right now. Please make sure Ollama is running, then try again.",
+          process.env.THERAPIST_PROVIDER === 'groq'
+            ? "I can't reach the companion model right now. Please try again in a moment."
+            : "I can't reach the local therapist model right now. Please make sure Ollama is running, then try again.",
         );
         return { userMessage, replies: [reply], offline: true };
       }

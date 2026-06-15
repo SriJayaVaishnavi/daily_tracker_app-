@@ -6,6 +6,18 @@ import { Loader2, ChevronLeft } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 import KittyMark from '@/components/KittyMark';
 
+/**
+ * Base URL for auth redirect links. Uses the configured site URL in production
+ * (so links always point at the deployed app), falling back to the current
+ * origin for local dev.
+ */
+function authRedirect(path: string): string {
+  const base =
+    process.env.NEXT_PUBLIC_SITE_URL ||
+    (typeof window !== 'undefined' ? window.location.origin : '');
+  return `${base}${path}`;
+}
+
 type Mode = 'landing' | 'login' | 'signup';
 
 function LoginInner() {
@@ -49,7 +61,7 @@ function LoginInner() {
     const supabase = createClient();
     const { error } = await supabase.auth.signInWithOtp({
       email: email.trim(),
-      options: { emailRedirectTo: `${location.origin}/callback` },
+      options: { emailRedirectTo: authRedirect('/callback') },
     });
     setLoading(false);
     if (error) setError(error.message);
@@ -65,7 +77,7 @@ function LoginInner() {
     setLoading(true);
     const supabase = createClient();
     const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
-      redirectTo: `${location.origin}/callback?next=/set-password`,
+      redirectTo: authRedirect('/callback?next=/set-password'),
     });
     setLoading(false);
     if (error) setError(error.message);
