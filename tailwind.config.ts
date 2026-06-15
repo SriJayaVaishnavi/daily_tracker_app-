@@ -26,8 +26,8 @@ const config: Config = {
         ring: "var(--ring)",
       },
       fontFamily: {
-        serif: ["var(--font-lora)", "ui-serif", "Georgia", "serif"],
-        sans: ["var(--font-raleway)", "ui-sans-serif", "system-ui", "sans-serif"],
+        serif: ["var(--font-display)", "ui-serif", "Georgia", "serif"],
+        sans: ["var(--font-body)", "ui-sans-serif", "system-ui", "sans-serif"],
       },
     },
   },

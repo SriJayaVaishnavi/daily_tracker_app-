@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { ChevronLeft } from 'lucide-react';
-import GoalForm from '@/components/GoalForm';
+import GoalComposer from '@/components/GoalComposer';
 
 export default function NewGoalPage() {
   return (
@@ -14,7 +14,7 @@ export default function NewGoalPage() {
         </Link>
         <h1 className="mt-2 font-serif text-2xl font-semibold text-foreground">New goal</h1>
       </div>
-      <GoalForm mode="create" />
+      <GoalComposer mode="create" />
     </div>
   );
 }

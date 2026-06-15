@@ -2,8 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Default theme: kitty (baby pink). Light-only. */
 :root {
-  /* Light — warm wellness */
+  --background: #fff5f9;
+  --surface: #ffffff;
+  --foreground: #4a2c3a;
+  --muted-fg: #a9788b;
+  --border: #ffe0ec;
+  --primary: #ff8cc0;
+  --primary-fg: #5b2138;
+  --accent: #59c7bd;
+  --accent-fg: #0b3b37;
+  --destructive: #b91c1c;
+  --ring: #ec6aaa;
+
+  --font-display: var(--font-baloo);
+  --font-body: var(--font-nunito);
+}
+
+/* Alternative theme: amber (warm wellness). Light-only. */
+[data-theme='amber'] {
   --background: #faf7f2;
   --surface: #ffffff;
   --foreground: #1a1714;
@@ -15,22 +33,9 @@
   --accent-fg: #ffffff;
   --destructive: #b91c1c;
   --ring: #b45309;
-}
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #14110e;
-    --surface: #1e1a16;
-    --foreground: #f2ede6;
-    --muted-fg: #a89e92;
-    --border: #2e2820;
-    --primary: #f59e0b;
-    --primary-fg: #1a1714;
-    --accent: #34d399;
-    --accent-fg: #08110d;
-    --destructive: #f87171;
-    --ring: #f59e0b;
-  }
+  --font-display: var(--font-lora);
+  --font-body: var(--font-raleway);
 }
 
 * {
@@ -44,7 +49,7 @@ html {
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: var(--font-raleway), ui-sans-serif, system-ui, sans-serif;
+  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
   font-size: 16px;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
@@ -52,7 +57,7 @@ body {
 }
 
 h1, h2, h3, h4 {
-  font-family: var(--font-lora), ui-serif, Georgia, serif;
+  font-family: var(--font-display), ui-serif, Georgia, serif;
 }
 
 /* Gentle, consistent motion */
@@ -71,6 +76,11 @@ h1, h2, h3, h4 {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* The kitty mascot only appears in the kitty theme. */
+[data-theme='amber'] .kitty-mark {
+  display: none;
 }
 
 @layer utilities {

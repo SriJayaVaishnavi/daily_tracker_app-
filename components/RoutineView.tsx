@@ -19,7 +19,7 @@ export default function RoutineView({ routine }: { routine: Routine }) {
 
       <section aria-labelledby="habits-heading" className="space-y-3">
         <h2 id="habits-heading" className="font-serif text-lg font-semibold text-foreground">
-          Today&rsquo;s habits
+          Today
         </h2>
         {noGoals ? (
           <Link

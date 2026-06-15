@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Routine — Kitty Theme Mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #fff5f9;
+    --surface: #ffffff;
+    --fg: #4a2c3a;
+    --muted: #a9788b;
+    --border: #ffe0ec;
+    --primary: #ff8cc0;       /* baby pink button */
+    --primary-fg: #5b2138;    /* plum text on pink */
+    --primary-strong: #ec6aaa;/* alt richer pink */
+    --accent: #59c7bd;        /* soft mint = on-track/success */
+    --bow: #ffce4a;           /* gold bow (not trademark red) */
+    --shadow: 0 8px 24px rgba(255, 140, 192, 0.18);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--fg);
+    font-family: "Nunito", system-ui, sans-serif; line-height: 1.55;
+    padding: 32px 16px 64px;
+  }
+  h1, h2, h3, .display { font-family: "Baloo 2", system-ui, sans-serif; }
+  .wrap { max-width: 980px; margin: 0 auto; }
+  .lead { text-align: center; margin-bottom: 8px; }
+  .lead h1 { font-size: 34px; margin: 0; }
+  .lead p { color: var(--muted); margin: 4px 0 28px; }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 28px; align-items: start; }
+
+  /* phone frame */
+  .phone { background: var(--surface); border: 1px solid var(--border); border-radius: 36px; padding: 18px 16px 0; box-shadow: var(--shadow); overflow: hidden; }
+  .phone-label { text-align: center; color: var(--muted); font-weight: 700; font-size: 13px; margin: 0 0 12px; letter-spacing: .04em; text-transform: uppercase; }
+
+  .appbar { display: flex; align-items: center; justify-content: space-between; padding-bottom: 14px; }
+  .brand { display: flex; align-items: center; gap: 8px; font-family: "Baloo 2"; font-weight: 700; font-size: 20px; }
+  .signout { color: var(--muted); font-weight: 600; font-size: 13px; }
+
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 22px; padding: 16px; margin-bottom: 14px; box-shadow: 0 4px 14px rgba(255,140,192,.10); }
+  .quote { background: linear-gradient(135deg, #fff0f6, #ffe7f1); border-color: #ffd4e7; }
+  .quote .q { font-family: "Baloo 2"; font-size: 16px; }
+  .quote .by { color: var(--muted); font-size: 13px; margin-top: 6px; }
+
+  .goal-top { display:flex; align-items:center; justify-content: space-between; }
+  .goal-title { font-family:"Baloo 2"; font-weight:600; font-size:17px; }
+  .pill { font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 999px; }
+  .pill-mint { background: #e3f7f4; color: #2c8378; }
+  .bar { height: 10px; background: #ffe0ec; border-radius: 999px; margin-top: 12px; overflow: hidden; }
+  .bar > span { display:block; height:100%; width:64%; background: linear-gradient(90deg,#ff9ec7,#ff8cc0); border-radius: 999px; }
+  .goal-sub { color: var(--muted); font-size: 13px; margin-top: 8px; }
+
+  .chips { display:flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .chip { display:inline-flex; align-items:center; gap:6px; border:1px solid var(--border); background: #fff; border-radius: 999px; padding: 7px 12px; font-size: 13px; font-weight:600; }
+  .chip .k { color: var(--muted); font-weight: 700; font-size: 11px; }
+  .chip.dashed { border-style: dashed; color: var(--muted); }
+
+  .btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; width:100%; min-height:50px; border-radius:16px; font-family:"Baloo 2"; font-weight:700; font-size:16px; border:none; cursor:pointer; }
+  .btn-primary { background: var(--primary); color: var(--primary-fg); box-shadow: 0 6px 16px rgba(255,140,192,.35); }
+  .btn-strong { background: var(--primary-strong); color:#fff; }
+  .btn-outline { background:#fff; color: var(--fg); border:1.5px solid var(--border); }
+  .row { display:flex; gap:10px; }
+
+  .bottomnav { display:flex; justify-content: space-around; border-top:1px solid var(--border); margin: 8px -16px 0; padding: 10px 0 14px; color: var(--muted); font-size: 11px; font-weight:700; }
+  .bottomnav .on { color: var(--primary-strong); }
+  .navi { display:flex; flex-direction:column; align-items:center; gap:3px; }
+  .dot { width:22px; height:22px; border-radius:7px; background:#ffe0ec; }
+  .navi.on .dot { background: var(--primary); }
+
+  .swatches { display:flex; flex-wrap:wrap; gap:12px; }
+  .sw { width: 92px; }
+  .sw .chipc { height:54px; border-radius:14px; border:1px solid rgba(0,0,0,.05); }
+  .sw small { display:block; margin-top:6px; color:var(--muted); font-weight:700; font-size:11px; }
+  .sw code { font-size: 11px; color: var(--fg); }
+
+  .note { background:#fff; border:1px dashed var(--border); border-radius:16px; padding:14px 16px; color:var(--muted); font-size:14px; }
+  .center { text-align:center; }
+  .login-hero { padding: 30px 8px 18px; text-align:center; }
+  .login-hero .display { font-size: 30px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="lead">
+    <h1>Routine — Kitty Theme 🎀</h1>
+    <p>Baby pink &amp; white · original kitty mascot · rounded friendly type. Open in a browser to view.</p>
+  </div>
+
+  <div class="grid">
+
+    <!-- HOME SCREEN -->
+    <div>
+      <p class="phone-label">Home</p>
+      <div class="phone">
+        <div class="appbar">
+          <div class="brand">
+            <!-- original cute kitty mascot -->
+            <svg width="30" height="30" viewBox="0 0 64 64" aria-hidden="true">
+              <g>
+                <path d="M14 16 L8 4 L24 12 Z" fill="#fff" stroke="#ffd4e7" stroke-width="2"/>
+                <path d="M50 16 L56 4 L40 12 Z" fill="#fff" stroke="#ffd4e7" stroke-width="2"/>
+                <ellipse cx="32" cy="34" rx="24" ry="21" fill="#fff" stroke="#ffd4e7" stroke-width="2"/>
+                <circle cx="23" cy="33" r="2.6" fill="#4a2c3a"/>
+                <circle cx="41" cy="33" r="2.6" fill="#4a2c3a"/>
+                <ellipse cx="32" cy="38" rx="3" ry="2" fill="#ffce4a"/>
+                <path d="M6 33 H17 M6 38 H17 M58 33 H47 M58 38 H47" stroke="#e7b9cb" stroke-width="1.6" fill="none"/>
+                <!-- gold bow -->
+                <path d="M44 16 l8 -5 0 10 z M52 16 l8 -5 0 10 z" fill="#ffce4a" stroke="#e3a93f" stroke-width="1"/>
+                <circle cx="52" cy="16" r="2.4" fill="#ffdd77"/>
+              </g>
+            </svg>
+            Routine
+          </div>
+          <div class="signout">Sign out</div>
+        </div>
+
+        <div class="card quote">
+          <div class="q">“We suffer more in imagination than in reality.”</div>
+          <div class="by">— Seneca</div>
+        </div>
+
+        <div class="card">
+          <div class="goal-top">
+            <span class="goal-title">Meditate 🧘</span>
+            <span class="pill pill-mint">on track</span>
+          </div>
+          <div class="bar"><span></span></div>
+          <div class="goal-sub">10 min · daily · 16 of 25 days</div>
+        </div>
+
+        <div class="card">
+          <div class="goal-title" style="margin-bottom:10px;">New goal</div>
+          <div class="chips">
+            <span class="chip"><span class="k">Goal</span> meditate</span>
+            <span class="chip"><span class="k">Type</span> Habit</span>
+            <span class="chip"><span class="k">When</span> Daily</span>
+            <span class="chip"><span class="k">Target</span> 10 min</span>
+            <span class="chip dashed">+ category</span>
+          </div>
+        </div>
+
+        <div class="bottomnav">
+          <div class="navi on"><span class="dot"></span>Home</div>
+          <div class="navi"><span class="dot"></span>Goals</div>
+          <div class="navi"><span class="dot"></span>Mood</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LOGIN + COMPONENTS -->
+    <div>
+      <p class="phone-label">Welcome / components</p>
+      <div class="phone">
+        <div class="login-hero">
+          <svg width="64" height="64" viewBox="0 0 64 64" aria-hidden="true">
+            <path d="M14 16 L8 4 L24 12 Z" fill="#fff" stroke="#ffd4e7" stroke-width="2"/>
+            <path d="M50 16 L56 4 L40 12 Z" fill="#fff" stroke="#ffd4e7" stroke-width="2"/>
+            <ellipse cx="32" cy="34" rx="24" ry="21" fill="#fff" stroke="#ffd4e7" stroke-width="2"/>
+            <circle cx="23" cy="33" r="2.6" fill="#4a2c3a"/>
+            <circle cx="41" cy="33" r="2.6" fill="#4a2c3a"/>
+            <ellipse cx="32" cy="38" rx="3" ry="2" fill="#ffce4a"/>
+            <path d="M6 33 H17 M6 38 H17 M58 33 H47 M58 38 H47" stroke="#e7b9cb" stroke-width="1.6" fill="none"/>
+            <path d="M44 16 l8 -5 0 10 z M52 16 l8 -5 0 10 z" fill="#ffce4a" stroke="#e3a93f" stroke-width="1"/>
+            <circle cx="52" cy="16" r="2.4" fill="#ffdd77"/>
+          </svg>
+          <div class="display">Routine</div>
+          <p style="color:var(--muted); margin:6px 0 18px;">your gentle daily companion</p>
+        </div>
+        <button class="btn btn-primary" style="margin-bottom:10px;">I’m new here</button>
+        <button class="btn btn-outline" style="margin-bottom:18px;">Log in</button>
+
+        <div class="card" style="margin-top:6px;">
+          <div class="goal-title" style="margin-bottom:10px;">Buttons</div>
+          <button class="btn btn-primary" style="margin-bottom:10px;">Primary — pink + plum</button>
+          <button class="btn btn-strong" style="margin-bottom:10px;">Alt — richer pink + white</button>
+          <div class="row">
+            <button class="btn btn-outline">Cancel</button>
+            <button class="btn btn-primary">Save 🎀</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PALETTE -->
+  <div class="card" style="margin-top:28px;">
+    <h3 style="margin:0 0 14px;">Palette</h3>
+    <div class="swatches">
+      <div class="sw"><div class="chipc" style="background:#fff5f9"></div><small>background</small><code>#fff5f9</code></div>
+      <div class="sw"><div class="chipc" style="background:#ffffff"></div><small>surface</small><code>#ffffff</code></div>
+      <div class="sw"><div class="chipc" style="background:#4a2c3a"></div><small>text</small><code>#4a2c3a</code></div>
+      <div class="sw"><div class="chipc" style="background:#ffe0ec"></div><small>border</small><code>#ffe0ec</code></div>
+      <div class="sw"><div class="chipc" style="background:#ff8cc0"></div><small>primary</small><code>#ff8cc0</code></div>
+      <div class="sw"><div class="chipc" style="background:#ec6aaa"></div><small>primary alt</small><code>#ec6aaa</code></div>
+      <div class="sw"><div class="chipc" style="background:#59c7bd"></div><small>accent/mint</small><code>#59c7bd</code></div>
+      <div class="sw"><div class="chipc" style="background:#ffce4a"></div><small>bow gold</small><code>#ffce4a</code></div>
+    </div>
+    <p class="note" style="margin-top:16px;">
+      Fonts: <b>Baloo 2</b> (rounded display) for headings &amp; buttons, <b>Nunito</b> for body —
+      replacing Lora/Raleway. Mascot is an <b>original</b> cat (gold bow), not Sanrio’s Hello Kitty.
+      Two primary-button options shown: pastel-pink-with-plum-text (cuter) vs richer-pink-with-white (more contrast).
+    </p>
+  </div>
+</div>
+</body>
+</html>

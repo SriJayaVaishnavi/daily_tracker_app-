@@ -2,12 +2,15 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Target, HeartPulse } from 'lucide-react';
+import { Home, Target, CalendarCheck, HeartPulse, MessageCircleHeart, Settings } from 'lucide-react';
 
 const items = [
   { href: '/', label: 'Home', icon: Home },
   { href: '/goals', label: 'Goals', icon: Target },
+  { href: '/plan', label: 'Plan', icon: CalendarCheck },
   { href: '/mood', label: 'Mood', icon: HeartPulse },
+  { href: '/talk', label: 'Talk', icon: MessageCircleHeart },
+  { href: '/settings', label: 'Settings', icon: Settings },
 ] as const;
 
 function isActive(pathname: string, href: string): boolean {

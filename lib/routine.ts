@@ -14,6 +14,7 @@ export interface HabitItem {
   goal_id: string;
   title: string;
   recurrence_type: RecurrenceType;
+  scheduled_time: string | null;
   unit: string | null;
   target_value: number | null;
   status: 'done' | 'skipped' | 'partial' | null;
@@ -72,7 +73,7 @@ export async function todayRoutine(today: Date): Promise<Routine> {
   const { data: tasks } = await supabase
     .from('tasks')
     .select(
-      'id, goal_id, title, recurrence_type, weekdays, target_count, target_value, unit, goals!inner(status)',
+      'id, goal_id, title, recurrence_type, weekdays, target_count, target_value, unit, scheduled_time, goals!inner(status)',
     )
     .eq('is_active', true)
     .eq('goals.status', 'active');
@@ -96,6 +97,7 @@ export async function todayRoutine(today: Date): Promise<Routine> {
       target_count: number | null;
       target_value: number | null;
       unit: string | null;
+      scheduled_time: string | null;
     };
 
     let due = isHabitDueToday(t, today, tz);
@@ -120,12 +122,18 @@ export async function todayRoutine(today: Date): Promise<Routine> {
       goal_id: t.goal_id,
       title: t.title,
       recurrence_type: t.recurrence_type,
+      scheduled_time: t.scheduled_time,
       unit: t.unit,
       target_value: t.target_value,
       status: (logByTask.get(t.id) as HabitItem['status']) ?? null,
       weekly_progress,
     });
   }
+
+  // Chronological checklist: timed items first (by time), untimed last.
+  habit.sort((a, b) =>
+    (a.scheduled_time ?? '99:99').localeCompare(b.scheduled_time ?? '99:99'),
+  );
 
   // Active project pace tiles.
   const { data: projects } = await supabase

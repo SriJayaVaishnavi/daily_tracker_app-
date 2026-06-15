@@ -72,6 +72,46 @@ export type MoodLog = {
   created_at: string;
 }
 
+export type TherapyPersona = 'warm' | 'stoic';
+export type TherapyRisk = 'none' | 'concern' | 'crisis';
+export type TherapyMode = 'chat' | 'roleplay';
+export type TherapyRole = 'user' | 'assistant' | 'coach';
+
+export type TherapyAction =
+  | { type: 'launch_tool'; tool: 'breathing' | 'thought_record' }
+  | { type: 'roleplay_start'; persona: string }
+  | { type: 'roleplay_end' };
+
+/** A journal file the user uploaded into a Talk session (stored in the `journals` bucket). */
+export type TherapyAttachment = {
+  path: string;
+  kind: 'image' | 'pdf';
+  name: string;
+};
+
+export type TherapySession = {
+  id: string;
+  user_id: string;
+  persona: TherapyPersona;
+  risk_flag: TherapyRisk;
+  mode: TherapyMode;
+  roleplay_persona: string | null;
+  summary: string | null;
+  started_at: string;
+  ended_at: string | null;
+}
+
+export type TherapyMessage = {
+  id: string;
+  session_id: string;
+  user_id: string;
+  role: TherapyRole;
+  content: string;
+  action: TherapyAction | null;
+  attachment: TherapyAttachment | null;
+  created_at: string;
+}
+
 export type StoicQuote = {
   id: number;
   body: string;
@@ -97,6 +137,35 @@ export type Profile = {
   quiet_hours_start: string | null;
   quiet_hours_end: string | null;
   notif_prefs: Record<string, unknown>;
+  created_at: string;
+  updated_at: string;
+}
+
+export type PushSubscription = {
+  id: string;
+  user_id: string;
+  endpoint: string;
+  p256dh: string;
+  auth_key: string;
+  user_agent: string | null;
+  created_at: string;
+  last_seen_at: string;
+}
+
+export type ReminderKind = 'task' | 'daily_brief' | 'mood_checkin';
+
+export type Reminder = {
+  id: string;
+  user_id: string;
+  task_id: string | null;
+  kind: ReminderKind;
+  title_template: string | null;
+  scheduled_time: string;           // 'HH:MM:SS', user-local
+  recurrence_type: RecurrenceType;
+  weekdays: number[] | null;
+  next_fire_at: string;             // ISO UTC
+  is_enabled: boolean;
+  last_sent_at: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -152,10 +221,45 @@ export type Database = {
         Update: Partial<StoicQuote>;
         Relationships: [];
       };
+      therapy_sessions: {
+        Row: TherapySession;
+        Insert: Omit<TherapySession, 'id' | 'started_at'> & {
+          id?: string;
+          started_at?: string;
+        };
+        Update: Partial<TherapySession>;
+        Relationships: [];
+      };
+      therapy_messages: {
+        Row: TherapyMessage;
+        Insert: Omit<TherapyMessage, 'id' | 'created_at' | 'attachment'> & {
+          id?: string;
+          attachment?: TherapyAttachment | null;
+        };
+        Update: Partial<TherapyMessage>;
+        Relationships: [];
+      };
       daily_briefs: {
         Row: DailyBrief;
         Insert: Omit<DailyBrief, 'id' | 'generated_at'>;
         Update: Partial<DailyBrief>;
+        Relationships: [];
+      };
+      push_subscriptions: {
+        Row: PushSubscription;
+        Insert: Omit<PushSubscription, 'id' | 'created_at' | 'last_seen_at'> & {
+          last_seen_at?: string;
+        };
+        Update: Partial<PushSubscription>;
+        Relationships: [];
+      };
+      reminders: {
+        Row: Reminder;
+        Insert: Omit<
+          Reminder,
+          'id' | 'created_at' | 'updated_at' | 'last_sent_at' | 'is_enabled'
+        > & { last_sent_at?: string | null; is_enabled?: boolean };
+        Update: Partial<Reminder>;
         Relationships: [];
       };
     };

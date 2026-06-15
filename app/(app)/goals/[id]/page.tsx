@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { ChevronLeft } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import type { Goal } from '@/lib/database.types';
-import GoalForm from '@/components/GoalForm';
+import GoalComposer from '@/components/GoalComposer';
 
 export const dynamic = 'force-dynamic';
 
@@ -27,7 +27,7 @@ export default async function EditGoalPage({ params }: { params: { id: string } 
         <h1 className="mt-2 font-serif text-2xl font-semibold text-foreground">Edit goal</h1>
       </div>
       {goal ? (
-        <GoalForm mode="edit" goal={goal} />
+        <GoalComposer mode="edit" goal={goal} />
       ) : (
         <div className="rounded-2xl border border-border bg-surface p-8 text-center shadow-sm">
           <p className="font-medium text-foreground">Goal not found</p>

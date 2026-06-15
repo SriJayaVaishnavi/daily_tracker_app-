@@ -94,6 +94,11 @@ export default function HabitItem({ item }: { item: HabitItemType }) {
           {item.title}
         </p>
         <div className="mt-0.5 flex flex-wrap items-center gap-2 text-xs text-muted-fg">
+          {item.scheduled_time && (
+            <span className="tabular-nums font-medium text-foreground">
+              {item.scheduled_time.slice(0, 5)}
+            </span>
+          )}
           {target && <span>{target}</span>}
           {item.weekly_progress && (
             <span className="rounded-full border border-border px-2 py-0.5">
