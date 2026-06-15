@@ -11,17 +11,10 @@ FROM node:20-alpine AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-# NEXT_PUBLIC_* are inlined at build time, so they must be present here.
-# Pass them as --build-arg (or Cloud Build substitutions).
-ARG NEXT_PUBLIC_SUPABASE_URL
-ARG NEXT_PUBLIC_SUPABASE_ANON_KEY
-ARG NEXT_PUBLIC_VAPID_PUBLIC_KEY
-ARG NEXT_PUBLIC_CRON_INVOKE_TOKEN
-ENV NEXT_PUBLIC_SUPABASE_URL=$NEXT_PUBLIC_SUPABASE_URL \
-    NEXT_PUBLIC_SUPABASE_ANON_KEY=$NEXT_PUBLIC_SUPABASE_ANON_KEY \
-    NEXT_PUBLIC_VAPID_PUBLIC_KEY=$NEXT_PUBLIC_VAPID_PUBLIC_KEY \
-    NEXT_PUBLIC_CRON_INVOKE_TOKEN=$NEXT_PUBLIC_CRON_INVOKE_TOKEN \
-    NEXT_TELEMETRY_DISABLED=1
+# NEXT_PUBLIC_* are provided by .env.production (written by deploy.sh and copied
+# in above) and inlined by `next build`. Do NOT set them as empty ENV here — an
+# empty env var would shadow the .env.production values and inline blanks.
+ENV NEXT_TELEMETRY_DISABLED=1
 RUN npm run build
 
 # ---- runner: minimal runtime image ----
