@@ -12,7 +12,7 @@ import { classifyRisk, CRISIS_RESPONSE } from '@/lib/therapist/safety';
 import { loadContext } from '@/lib/therapist/memory';
 import { buildSystemPrompt, SUMMARY_PROMPT } from '@/lib/therapist/prompt';
 import {
-  callOllama,
+  callChatModel,
   parseModelOutput,
   OllamaOfflineError,
   type ChatMessage,
@@ -141,7 +141,7 @@ export async function sendMessage(
 
     let parsed;
     try {
-      const raw = await callOllama(messages);
+      const raw = await callChatModel(messages);
       parsed = parseModelOutput(raw);
     } catch (e) {
       if (e instanceof OllamaOfflineError) {
@@ -237,7 +237,7 @@ async function produceCoachFeedback(
       'Plain text, 2-4 sentences, second person.',
   };
   try {
-    const raw = await callOllama([system, ...history]);
+    const raw = await callChatModel([system, ...history]);
     const text = raw.trim();
     return insertMessage(supabase, userId, sessionId, 'coach', text);
   } catch {
@@ -252,7 +252,7 @@ export async function endSession(sessionId: string): Promise<void> {
   let summary: string | null = null;
   if (history.length > 0) {
     try {
-      const raw = await callOllama([
+      const raw = await callChatModel([
         { role: 'system', content: SUMMARY_PROMPT },
         ...history,
       ]);

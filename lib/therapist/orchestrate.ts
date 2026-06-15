@@ -96,3 +96,36 @@ export async function callOllama(messages: ChatMessage[]): Promise<string> {
   if (typeof content !== 'string') throw new OllamaOfflineError();
   return content;
 }
+
+const GROQ_CHAT_URL = 'https://api.groq.com/openai/v1/chat/completions';
+const GROQ_CHAT_MODEL = process.env.GROQ_MODEL || 'llama-3.3-70b-versatile';
+
+/** Call Groq's OpenAI-compatible chat endpoint. Throws OllamaOfflineError on failure. */
+export async function callGroqChat(messages: ChatMessage[]): Promise<string> {
+  const key = process.env.GROQ_API_KEY;
+  if (!key) throw new OllamaOfflineError();
+  let res: Response;
+  try {
+    res = await fetch(GROQ_CHAT_URL, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${key}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ model: GROQ_CHAT_MODEL, messages, temperature: 0.6 }),
+      signal: AbortSignal.timeout(45000),
+    });
+  } catch {
+    throw new OllamaOfflineError();
+  }
+  if (!res.ok) throw new OllamaOfflineError();
+  const data = await res.json();
+  const content = data?.choices?.[0]?.message?.content;
+  if (typeof content !== 'string') throw new OllamaOfflineError();
+  return content;
+}
+
+/**
+ * Route a therapist chat turn to the configured provider. Defaults to local
+ * Ollama (so local dev is unchanged); set THERAPIST_PROVIDER=groq in the cloud.
+ */
+export function callChatModel(messages: ChatMessage[]): Promise<string> {
+  return process.env.THERAPIST_PROVIDER === 'groq' ? callGroqChat(messages) : callOllama(messages);
+}
